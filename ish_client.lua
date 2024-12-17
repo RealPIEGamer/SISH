@@ -2,10 +2,10 @@
 
 -- Get the side of the modem
 write("modem side = ")
-modem_side = io.read()
+modem_side = peripheral.find("modem") -- modified so it doesnt as so many damn questions, just input hostname and RUNNNNN
 write("Hostname = ")
 hostname = io.read()
-protocol = "ISH"
+protocol = "SISH"
 
 -- Check modem
 print("Checking modem...")
