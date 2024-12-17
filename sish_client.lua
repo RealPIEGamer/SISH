@@ -24,18 +24,18 @@ if not rednet.isOpen(modem_side) then
 end
 
 -- Register hostname
-print("Registering hostname " .. hostname .. " on protocol " .. protocol)
+print("Registering hostname " .. hostname)
 rednet.host(protocol, hostname)
 
 -- ~Client Specific code~
 
 -- Get the ID of the slave
 write("Enter device ID for connection: ")
-slave = io.read()
-slaveID = rednet.lookup(protocol, slave)
+device = io.read()
+deviceID = rednet.lookup(protocol, device)
 
 while true do
-  write("<sish@" .. slave .. "> ")
+  write("<sish@" .. device .. "> ")
   remoteCmd = io.read()
   if remoteCmd == "exit" then
     break
@@ -44,9 +44,9 @@ while true do
   for arg in remoteCmd:gmatch("%w+") do
     table.insert(args, arg)
   end
-  rednet.send(slaveID, args, protocol)
+  rednet.send(deviceID, args, protocol)
   senderID, recvMsg, protocol = rednet.receive(protocol, 6000)
-  if (senderID == slaveID and recvMsg) then
+  if (senderID == deviceID and recvMsg) then
     print("Success.")
   else
     print("ERROR: Could not Connect.")
