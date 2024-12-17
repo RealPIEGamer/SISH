@@ -20,13 +20,10 @@ else
 end
 
 -- Check if rednet is open
-print("Checking if rednet is open... " .. tostring(rednet.isOpen(modem_side)))
+print("Connected to RedNet")
 if not rednet.isOpen(modem_side) then
   -- Open rednet
-  print("Opening rednet...")
   rednet.open(modem_side)
-else
-  print("Rednet is already open...")
 end
 
 -- Register hostname
@@ -34,7 +31,7 @@ print("Registering hostname " .. hostname .. " on protocol " .. protocol)
 rednet.host(protocol, hostname)
 
 -- ~Daemon Specific code~
-print("Start listening...")
+print("SISH Activated")
 while true do
   senderID, args, protocol = rednet.receive(protocol, 600)
   for i,v in ipairs(args) do
