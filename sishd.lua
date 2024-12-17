@@ -6,6 +6,9 @@ modem_side = peripheral.find("modem")
 write("Hostname = ")
 hostname = "insert host here" -- this way if you run this as startup you can just plug and play
 protocol = "SISH"
+otm = false -- Output To Monitor
+monitor = peripheral.wrap("side with monitor")
+bmc = false -- Blacklist Monitor Commands
 
 -- Check the modem
 local modem = peripheral.wrap(modem_side)
@@ -37,20 +40,27 @@ while true do
   for i,v in ipairs(args) do
     write(v .. " ")
   end
-  if args[2] == nil then
-    result = shell.run(args[1])
-    rednet.send(senderID, result, protocol)
-  elseif args[2] ~= nil then
-    if args[3] == nil then
-      resutl = shell.run(args[1], args[2])
-      rednet.send(senderID, result, protocol)
-    elseif args[4] == nil then
-      result = shell.run(args[1], args[2], args[3])
-      rednet.send(senderID, result, protocol)
-    end
+  if bmc == true then
+    if string.find(args, "monitor") not nil then
+      print("The administrator has blocked commands with \"monitor\" in them")
+      break()
+  else
+      if args[2] == nil then
+        result = shell.run(args[1])
+        rednet.send(senderID, result, protocol)
+      elseif args[2] ~= nil then
+      if args[3] == nil then
+        resutl = shell.run(args[1], args[2])
+        rednet.send(senderID, result, protocol)
+      elseif args[4] == nil then
+        result = shell.run(args[1], args[2], args[3])
+        rednet.send(senderID, result, protocol)
+      end
   else
     result = shell.run(args[1])
     rednet.send(senderID, result, protocol)
+  end
+    end
   end
 end
 
