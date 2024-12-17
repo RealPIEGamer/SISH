@@ -2,19 +2,18 @@
 
 -- Get the side of the modem
 write("modem side = ")
-modem_side = io.read()
+modem_side = peripheral.find("modem")
 write("Hostname = ")
-hostname = io.read()
-protocol = "ISH"
+hostname = "insert host here" -- this way if you run this as startup you can just plug and play
+protocol = "SISH"
 
 -- Check the modem
-print("Checking modem...")
 local modem = peripheral.wrap(modem_side)
 wireless = modem.isWireless()
 if wireless then
-  print("Selected modem is wireless.")
+  print("Connected")
 else
-  print("Selected modem is wired and will not work with turtles.")
+  print("Connected - Wired Only")
 end
 
 -- Check if rednet is open
