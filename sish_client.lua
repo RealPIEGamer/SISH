@@ -2,14 +2,13 @@
 
 -- Get the side of the modem
 write("modem side = ")
-modem_side = peripheral.find("modem") -- modified so it doesnt as so many damn questions, just input hostname and RUNNNNN
+local modem = peripheral.find("modem") -- modified so it doesnt as so many damn questions, just input hostname and RUNNNNN
 write("Hostname = ")
-hostname = "insert host here" -- this way if you run this as startup you can just plug and play
+hostname = "MizpahCentral" -- this way if you run this as startup you can just plug and play
 protocol = "SISH"
 
 -- Check modem
 print("Checking modem...")
-local modem = peripheral.wrap(modem_side)
 if modem.isWireless() then
   print("Connected")
 else
@@ -17,10 +16,12 @@ else
 end
 
 -- Check if rednet is open
-print("Starting SISH v1.0 - Opening RedNet" .. tostring(rednet.isOpen(modem_side)))
+print("Starting SISH v1.0 - Opening RedNet" 
+ .. tostring(rednet.isOpen(modem_side)))
 if not rednet.isOpen(modem_side) then
   -- Open rednet
-  rednet.open(modem_side)
+  --rednet.open(modem_side)
+  modem.open(os.getComputerID())
 end
 
 -- Register hostname
@@ -45,7 +46,8 @@ while true do
     table.insert(args, arg)
   end
   rednet.send(deviceID, args, protocol)
-  senderID, recvMsg, protocol = rednet.receive(protocol, 6000)
+  senderID, recvMsg, protocol 
+      = rednet.receive(protocol, 6000)
   if (senderID == deviceID and recvMsg) then
     print("Success.")
   else
